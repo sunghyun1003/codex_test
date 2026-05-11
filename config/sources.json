@@ -1,0 +1,92 @@
+{
+  "rss_sources": [
+    {
+      "name": "Google News - 한국 트렌드",
+      "channel": "validation",
+      "url": "https://news.google.com/rss/search?q=%ED%95%9C%EA%B5%AD%20%ED%8A%B8%EB%A0%8C%EB%93%9C%20when%3A7d&hl=ko&gl=KR&ceid=KR%3Ako"
+    },
+    {
+      "name": "Google News - 유행 밈 챌린지",
+      "channel": "diffusion",
+      "url": "https://news.google.com/rss/search?q=%EC%9C%A0%ED%96%89%20%EB%B0%88%20%EC%B1%8C%EB%A6%B0%EC%A7%80%20when%3A7d&hl=ko&gl=KR&ceid=KR%3Ako"
+    },
+    {
+      "name": "Google News - 소비 트렌드",
+      "channel": "validation",
+      "url": "https://news.google.com/rss/search?q=%EC%86%8C%EB%B9%84%20%ED%8A%B8%EB%A0%8C%EB%93%9C%20when%3A7d&hl=ko&gl=KR&ceid=KR%3Ako"
+    },
+    {
+      "name": "Google News - 숏폼 콘텐츠",
+      "channel": "diffusion",
+      "url": "https://news.google.com/rss/search?q=%EC%88%8F%ED%8F%BC%20%EC%BD%98%ED%85%90%EC%B8%A0%20when%3A7d&hl=ko&gl=KR&ceid=KR%3Ako"
+    },
+    {
+      "name": "Google News - 자동차보험",
+      "channel": "validation",
+      "url": "https://news.google.com/rss/search?q=%EC%9E%90%EB%8F%99%EC%B0%A8%EB%B3%B4%ED%97%98%20%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8%20when%3A7d&hl=ko&gl=KR&ceid=KR%3Ako"
+    }
+  ],
+  "naver_search": [
+    {
+      "service": "cafearticle",
+      "query": "운전자 커뮤니티 자동차보험",
+      "channel": "initial",
+      "display": 10,
+      "sort": "date"
+    },
+    {
+      "service": "blog",
+      "query": "초보운전 차량관리 자동차보험",
+      "channel": "initial",
+      "display": 10,
+      "sort": "date"
+    },
+    {
+      "service": "news",
+      "query": "자동차보험 다이렉트",
+      "channel": "validation",
+      "display": 10,
+      "sort": "date"
+    },
+    {
+      "service": "news",
+      "query": "소비 트렌드 모바일",
+      "channel": "validation",
+      "display": 10,
+      "sort": "date"
+    }
+  ],
+  "youtube_queries": [
+    "한국 유행 밈",
+    "한국 숏폼 챌린지",
+    "요즘 트렌드",
+    "소비 트렌드",
+    "자동차보험 광고"
+  ],
+  "naver_datalab": {
+    "timeUnit": "date",
+    "keywordGroups": [
+      {
+        "groupName": "자동차보험",
+        "keywords": ["자동차보험", "다이렉트 자동차보험", "차보험"]
+      },
+      {
+        "groupName": "숏폼",
+        "keywords": ["숏폼", "릴스", "쇼츠", "틱톡"]
+      },
+      {
+        "groupName": "밈챌린지",
+        "keywords": ["밈", "챌린지", "유행어"]
+      },
+      {
+        "groupName": "소비트렌드",
+        "keywords": ["소비 트렌드", "가성비", "루틴"]
+      },
+      {
+        "groupName": "운전생활",
+        "keywords": ["운전", "차량관리", "초보운전"]
+      }
+    ]
+  },
+  "manual_signal_file": "data/manual_signals.md"
+}

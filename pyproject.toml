@@ -1,0 +1,20 @@
+[project]
+name = "weekly-trend-banner-automation"
+version = "0.1.0"
+description = "Weekly Korean trend report, auto-insurance ad concepts, manual image prompts, and email delivery automation."
+requires-python = ">=3.11"
+dependencies = [
+  "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+paid-ai = [
+  "openai>=1.0.0",
+  "Pillow>=10.0.0",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

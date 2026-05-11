@@ -1,0 +1,52 @@
+name: Weekly Free Trend Report
+
+on:
+  schedule:
+    # 08:00 Monday in Asia/Seoul is 23:00 Sunday in UTC.
+    - cron: "0 23 * * 0"
+  workflow_dispatch:
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install free runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tzdata
+
+      - name: Run weekly report in free mode
+        env:
+          TIMEZONE: Asia/Seoul
+          OUTPUT_DIR: outputs
+          SOURCE_CONFIG: config/sources.json
+          ENABLE_OPENAI_REPORT: "false"
+          ENABLE_LLM_VALIDATION: "false"
+          GENERATE_IMAGES: "false"
+          COMPOSE_FINAL_BANNERS: "false"
+          GENERATE_REPORT_DOCX: "false"
+          GENERATE_REPORT_HTML: "true"
+          SEND_ONLY_IF_VALIDATION_PASSES: "false"
+          SEND_EMAIL: "true"
+          EMAIL_DRY_RUN: "false"
+          EMAIL_SUBJECT_PREFIX: "[Weekly Trend]"
+          EMAIL_TO: "sunghyun.yang@hanwha.com,sunghyun1003@naver.com"
+          SMTP_HOST: "smtp.gmail.com"
+          SMTP_PORT: "587"
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python scripts/run_weekly.py --root .
