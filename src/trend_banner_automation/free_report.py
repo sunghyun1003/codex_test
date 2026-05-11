@@ -114,6 +114,23 @@ NOISE_TOKENS = {
     "했다",
     "하는",
     "ratio",
+    "keywords",
+    "latest",
+    "seven",
+    "day",
+    "꾸준히",
+    "전하는",
+    "열렸다",
+    "카카오까지",
+    "2026년",
+    "보험료",
+}
+
+DOMAIN_CONTEXT_TOKENS = {
+    "자동차",
+    "자동차보험",
+    "다이렉트",
+    "운전",
 }
 
 
@@ -357,8 +374,8 @@ def build_candidates(items: list[SourceItem]) -> list[TrendCandidate]:
 
     candidates.sort(
         key=lambda item: (
-            len(item.channels),
             item.total,
+            len(item.channels),
             item.count,
             "validation" in item.channels,
             "diffusion" in item.channels,
@@ -392,6 +409,8 @@ def is_noise_keyword(value: str) -> bool:
         return True
     if re.search(r"^(뉴스|신문|일보|방송|경제|미디어)$", value):
         return True
+    if re.search(r"^\d{4}년?$", value):
+        return True
     if len(value) <= 2 and value not in {"AI", "숏폼", "릴스", "쇼츠", "운전", "안전"}:
         return True
     return False
@@ -420,7 +439,32 @@ def is_recent(value: str | None) -> bool:
 
 
 def trend_name(candidate: TrendCandidate) -> str:
-    return f"{candidate.keyword} 기반 생활 점검 트렌드"
+    keyword = candidate.keyword
+    related = {term for term, _ in candidate.related.most_common(12)}
+    title_map = {
+        "숏폼": "숏폼 콘텐츠 소비 확대",
+        "안전": "참여형 안전 콘텐츠 확산",
+        "초보운전": "초보운전 차량관리 루틴",
+        "가성비": "가성비 소비 재부상",
+        "소비트렌드": "가성비 소비 트렌드",
+        "AI": "AI 기반 콘텐츠 제작 확산",
+        "디지털": "디지털 콘텐츠 제작 지원 확대",
+    }
+    if keyword in title_map:
+        return title_map[keyword]
+    if keyword == "자동차보험":
+        if "다이렉트" in related:
+            return "다이렉트 자동차보험 확인 수요"
+        return "자동차보험 정보 탐색 증가"
+    if keyword == "자동차":
+        if "장기렌트" in related or "팰리세이드" in related:
+            return "차량 구매·렌트 비교 관심"
+        return "차량 관리 관심 증가"
+    if keyword == "다이렉트":
+        return "다이렉트 가입 정보 탐색 증가"
+    if keyword == "운전":
+        return "운전 안전·관리 루틴 관심"
+    return f"{keyword} 관심 증가"
 
 
 def make_candidate_explanation(candidate: TrendCandidate) -> str:
@@ -448,7 +492,7 @@ def ad_concept(candidate: TrendCandidate) -> dict[str, str]:
 
 
 def banner_copy(candidate: TrendCandidate) -> dict[str, list[str]]:
-    keyword = compact_keyword(candidate.keyword)
+    keyword = compact_keyword(ad_copy_keyword(candidate))
     return {
         "main": [
             f"{keyword} 자동차보험",
@@ -464,6 +508,16 @@ def banner_copy(candidate: TrendCandidate) -> dict[str, list[str]]:
             "바로 체크하기",
         ],
     }
+
+
+def ad_copy_keyword(candidate: TrendCandidate) -> str:
+    if candidate.keyword == "자동차보험":
+        return "내 차"
+    if candidate.keyword == "자동차":
+        return "내 차"
+    if candidate.keyword == "다이렉트":
+        return "다이렉트"
+    return candidate.keyword
 
 
 def compact_keyword(keyword: str) -> str:
