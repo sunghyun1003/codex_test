@@ -133,6 +133,13 @@ DOMAIN_CONTEXT_TOKENS = {
     "운전",
 }
 
+BANNER_REFERENCE_CUES = (
+    "Use the quality direction of Korean auto-insurance SNS banner references: square feed composition, "
+    "large bold Korean headline, clear two-step hierarchy, strong CTA bar or rounded button near the bottom, "
+    "simple benefit-oriented layout, crisp object focus, and generous negative space around copy. "
+    "Vary the execution by concept rather than using one uniform blue-and-white template."
+)
+
 
 @dataclass
 class TrendCandidate:
@@ -548,7 +555,8 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "objects": "스마트폰 보험 확인 화면, 자동차 키, 깔끔한 차량 실내 디테일",
             "mood": "신뢰감 있고 차분한 금융 서비스 광고 톤",
             "colors": "딥블루, 화이트, 라이트그레이, 작은 민트 포인트",
-            "composition": "square crop, close-up foreground object, copy-safe empty space on the left",
+            "composition": "square crop, close-up foreground object, big headline block on the upper left, CTA bar at the bottom",
+            "reference_cue": "similar to polished Korean insurer feed banners with a strong headline, product cue, and clear lower CTA",
         }
     if keyword in {"자동차", "운전"} or "장기렌트" in related:
         return {
@@ -556,7 +564,8 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "objects": "도심 도로의 차량, 운전석 손, 대시보드, 내비게이션 UI",
             "mood": "현실적이고 바로 행동하게 만드는 모빌리티 광고 톤",
             "colors": "네이비, 스카이블루, 화이트, 차콜",
-            "composition": "square social ad, vehicle or dashboard on the right, copy block on the left",
+            "composition": "square social ad, vehicle or dashboard as hero object, oversized headline over a clean sky or road area, CTA band at bottom",
+            "reference_cue": "similar to Korean car-insurance banners that use real vehicle photography and high-contrast headline typography",
         }
     if keyword in {"안전", "초보운전"}:
         return {
@@ -564,7 +573,8 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "objects": "초보운전 표식, 체크리스트, 안전벨트, 작은 자동차 아이콘",
             "mood": "부담 없고 안심되는 교육형 서비스 광고 톤",
             "colors": "소프트블루, 세이지그린, 아이보리, 따뜻한 옐로 포인트",
-            "composition": "square layout, illustration scene in the center, headline at top, CTA at bottom",
+            "composition": "square layout, friendly character or checklist scene in the center, headline at top, rounded CTA at bottom",
+            "reference_cue": "similar to character-based Korean insurance banners with warm expressions and simple explanatory copy",
         }
     if keyword in {"숏폼", "AI", "디지털"} or "숏폼" in title:
         return {
@@ -572,7 +582,8 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "objects": "세로형 숏폼 카드, 스마트폰, 알림 버블, 자동차 아이콘, AI 가이드 UI",
             "mood": "빠르고 경쾌한 모바일 콘텐츠 광고 톤",
             "colors": "일렉트릭블루, 코발트, 화이트, 라임 포인트",
-            "composition": "square dynamic composition, floating UI elements, strong headline area at top",
+            "composition": "square dynamic composition, floating UI cards, bold headline in the center-left, CTA button below",
+            "reference_cue": "similar to modern Korean app-service banners with mascot-like UI elements and sharp digital depth",
         }
     if keyword in {"가성비", "소비트렌드"}:
         return {
@@ -580,7 +591,8 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "objects": "체크 카드형 UI, 비교 리스트, 자동차 실루엣, 생활 소품",
             "mood": "똑똑하고 실용적인 소비 정보 광고 톤",
             "colors": "화이트, 잉크블루, 코랄, 라이트민트",
-            "composition": "square editorial grid, modular blocks, headline in the upper third",
+            "composition": "square editorial grid, modular cards, large numeric or checklist-like visual rhythm without price claims, CTA strip at bottom",
+            "reference_cue": "similar to Korean comparison banners with bold headline contrast and neatly separated information blocks",
         }
 
     style_cycle = [
@@ -590,6 +602,7 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "mood": "정돈되고 신뢰감 있는 서비스 광고 톤",
             "colors": "블루, 화이트, 그레이",
             "composition": "square balanced layout with copy-safe negative space",
+            "reference_cue": "similar to clean Korean insurance service banners with strong typography and bottom CTA",
         },
         {
             "visual_style": "부드러운 2D 일러스트레이션",
@@ -597,6 +610,7 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "mood": "친근하고 이해하기 쉬운 안내형 광고 톤",
             "colors": "소프트블루, 그린, 아이보리",
             "composition": "square centered illustration with headline area",
+            "reference_cue": "similar to friendly Korean character banners for insurance guidance",
         },
         {
             "visual_style": "밝은 카툰형 광고 일러스트",
@@ -604,6 +618,7 @@ def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
             "mood": "가볍고 클릭을 유도하는 SNS 광고 톤",
             "colors": "스카이블루, 화이트, 옐로, 코랄",
             "composition": "square cartoon poster, bold headline, clear CTA button",
+            "reference_cue": "similar to humorous problem-solution cartoon banners with bold Korean copy",
         },
     ]
     return style_cycle[(index - 1) % len(style_cycle)]
@@ -630,6 +645,7 @@ def build_image_prompts(candidates: list[TrendCandidate]) -> list[dict[str, str]
                     f"Visual style: {style['visual_style']}. Key objects: {style['objects']}. "
                     f"Mood: {style['mood']}. Color palette: {style['colors']}. "
                     f"Composition: {style['composition']}. "
+                    f"Reference quality cues: {BANNER_REFERENCE_CUES} {style['reference_cue']}. "
                     f"Place exact Korean headline text '{copy['main'][0]}' in a large readable type area, "
                     f"supporting text '{copy['sub'][0]}' as a smaller secondary line, and CTA '{copy['cta'][0]}' "
                     "inside a clear button near the lower edge. Ensure the Korean text is crisp, correctly spelled, "
@@ -656,6 +672,7 @@ def build_image_prompts(candidates: list[TrendCandidate]) -> list[dict[str, str]
                     "optimized for a 1080x1080 feed image. "
                     f"Visual style: {style['visual_style']}. Key objects: {style['objects']}. "
                     f"Mood: {style['mood']}. Color palette: {style['colors']}. "
+                    f"Reference quality cues: {BANNER_REFERENCE_CUES} {style['reference_cue']}. "
                     "Place exact Korean headline text '자동차보험 지금 체크', supporting text '운전 전 한 번 더 확인', "
                     "and CTA '자동차보험 확인'. Ensure the Korean text is crisp, correctly spelled, and readable. "
                     "Do not include cash, coins, money bundles, gold, cryptocurrency, price tags, discount labels, "
