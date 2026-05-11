@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import html
 import re
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -63,8 +64,18 @@ def fetch_json(
         request_headers.setdefault("Content-Type", "application/json")
 
     request = urllib.request.Request(url, data=data, headers=request_headers, method=method)
-    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
-        return json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = ""
+        try:
+            detail = exc.read().decode("utf-8", errors="replace")[:500]
+        except Exception:  # noqa: BLE001
+            detail = ""
+        if detail:
+            raise RuntimeError(f"HTTP {exc.code} {exc.reason}: {detail}") from exc
+        raise
 
 
 def parse_rss_items(payload: bytes, source_name: str, channel: str, limit: int) -> list[SourceItem]:
