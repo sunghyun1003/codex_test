@@ -176,7 +176,6 @@ def build_free_report(
         "# Weekly Trend Report",
         "",
         f"> 기준 시각: {started_at.strftime('%Y-%m-%d %H:%M')} KST",
-        "> 생성 방식: OpenAI API를 사용하지 않는 무료 규칙 기반 리포트",
         "",
         "## 1) Trend Discovery",
         "",
@@ -333,7 +332,7 @@ def build_free_report(
         [
             "## 8) Manual ChatGPT Image Prompts",
             "",
-            "아래 프롬프트는 자동 실행에서 이미지를 만들지 않습니다. 필요할 때 ChatGPT 이미지 생성 화면에 직접 붙여 넣어 사용하세요.",
+            "아래 프롬프트를 ChatGPT 이미지 생성 화면에 붙여 넣어 배너 이미지 제작에 활용하세요.",
             "",
             "## IMAGE_PROMPTS_JSON",
             "```json",

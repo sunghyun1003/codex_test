@@ -213,9 +213,7 @@ def build_email_body(
         f"- 실행일: {started_at.strftime('%Y-%m-%d %H:%M')}",
         f"- 검증 상태: {status}",
         f"- 리포트 파일: {report_path.name if report_path.exists() else '미생성'}",
-        "- 이미지 생성: 자동화에서 제외",
         "- 이미지 생성 프롬프트: HTML 리포트 최하단에 포함",
-        "- 과금 방식: OpenAI API 미사용 무료 모드",
     ]
     if validation.issues:
         lines.extend(["", "검증/수집 참고 사항:"])

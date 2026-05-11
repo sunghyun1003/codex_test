@@ -388,14 +388,14 @@ HTML_TEMPLATE = """<!doctype html>
     <section class="hero">
       <div class="eyebrow">Weekly Trend Report</div>
       <h1>전체 트렌드 리포트</h1>
-      <p>최근 7일 국내 트렌드 신호를 수집하고, 자동차보험 광고 콘셉트와 수동 이미지 생성 프롬프트까지 정리한 HTML 리포트입니다. 자동화는 OpenAI API를 사용하지 않는 무료 모드로 실행됩니다.</p>
+      <p>최근 7일 국내 트렌드 신호를 수집하고, 자동차보험 광고 콘셉트와 이미지 생성 프롬프트까지 정리한 HTML 리포트입니다.</p>
     </section>
 
     <section class="summary-bar" aria-label="report summary">
       <div class="metric"><strong>7일</strong><span>분석 기준 기간</span></div>
       <div class="metric"><strong>TOP 7</strong><span>트렌드 후보 선정</span></div>
       <div class="metric"><strong>5개</strong><span>광고 콘셉트</span></div>
-      <div class="metric"><strong>무료</strong><span>이미지 생성 제외</span></div>
+      <div class="metric"><strong>프롬프트</strong><span>배너 제작 참고</span></div>
     </section>
 
     <section class="content">
@@ -404,7 +404,7 @@ HTML_TEMPLATE = """<!doctype html>
 
     <section class="manual-prompts">
       <h2>수동 이미지 생성 프롬프트</h2>
-      <p>자동화에서는 이미지 생성 비용을 쓰지 않습니다. 아래 프롬프트를 ChatGPT 이미지 생성 화면에 직접 붙여 넣어 배너 이미지를 수동으로 생성하세요.</p>
+      <p>아래 프롬프트를 ChatGPT 이미지 생성 화면에 붙여 넣어 배너 이미지 제작에 활용하세요.</p>
       {{IMAGE_PROMPTS}}
     </section>
   </main>
