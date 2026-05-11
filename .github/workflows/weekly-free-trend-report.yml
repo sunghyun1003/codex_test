@@ -52,3 +52,15 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: python scripts/run_weekly.py --root .
+
+      - name: Upload generated report files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-trend-report
+          path: |
+            outputs/**/full_trend_report.html
+            outputs/**/weekly_trend_report.md
+            outputs/**/source_brief.md
+            outputs/**/run_log.json
+          if-no-files-found: warn
