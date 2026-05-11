@@ -115,6 +115,8 @@ def _image_prompt_cards(prompts: list[dict[str, str]]) -> str:
         main_copy = html.escape(str(item.get("main_copy", "")))
         sub_copy = html.escape(str(item.get("sub_copy", "")))
         cta = html.escape(str(item.get("cta", "")))
+        aspect_ratio = html.escape(str(item.get("aspect_ratio", "1:1")))
+        visual_style = html.escape(str(item.get("visual_style", "")))
         prompt = html.escape(str(item.get("prompt", "")))
         cards.append(
             f"""
@@ -122,6 +124,8 @@ def _image_prompt_cards(prompts: list[dict[str, str]]) -> str:
               <div class="prompt-meta">Prompt {index}</div>
               <h3>{concept}</h3>
               <div class="copy-grid">
+                <div><span>Ratio</span><strong>{aspect_ratio}</strong></div>
+                <div><span>Style</span><strong>{visual_style or "-"}</strong></div>
                 <div><span>Main</span><strong>{main_copy}</strong></div>
                 <div><span>Sub</span><strong>{sub_copy or "-"}</strong></div>
                 <div><span>CTA</span><strong>{cta}</strong></div>

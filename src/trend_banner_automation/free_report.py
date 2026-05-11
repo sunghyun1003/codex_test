@@ -527,54 +527,139 @@ def compact_keyword(keyword: str) -> str:
 
 
 def visual_direction(candidate: TrendCandidate) -> str:
+    style = creative_direction(candidate, 1)
     return (
-        "9:16 모바일 SNS 배너 기준으로 상단에는 짧은 메인 카피 영역, 중앙에는 운전석/차량/체크리스트를 "
-        "직관적으로 배치하고 하단에는 CTA 버튼이 들어갈 여백을 둡니다. 색상은 신뢰감을 주는 블루와 "
-        "화이트를 기본으로 하되, 트렌드 키워드의 분위기에 맞춰 포인트 컬러를 한 가지만 사용합니다. "
-        "돈다발, 코인, 현금, 가격표 이미지는 사용하지 않고 자동차보험이라는 문구가 선명하게 들어갈 수 "
-        "있는 광고형 구도를 유지합니다."
+        "1:1 정방형 SNS 배너 기준으로 메인 카피는 상단 또는 좌상단에 크게 배치하고, 중앙에는 콘셉트에 맞는 "
+        f"{style['visual_style']} 비주얼을 사용합니다. 핵심 오브젝트는 {style['objects']}이며, "
+        f"톤앤매너는 {style['mood']}로 잡습니다. 색상은 {style['colors']}를 중심으로 구성하고, "
+        "하단에는 CTA 버튼이 들어갈 충분한 여백을 둡니다. 돈다발, 코인, 현금, 가격표 이미지는 사용하지 않고 "
+        "자동차보험 문구가 선명하게 보이는 광고형 구도를 유지합니다."
     )
+
+
+def creative_direction(candidate: TrendCandidate, index: int) -> dict[str, str]:
+    keyword = candidate.keyword
+    title = trend_name(candidate)
+    related = {term for term, _ in candidate.related.most_common(12)}
+
+    if keyword in {"자동차보험", "다이렉트"}:
+        return {
+            "visual_style": "프리미엄 실사 라이프스타일 사진",
+            "objects": "스마트폰 보험 확인 화면, 자동차 키, 깔끔한 차량 실내 디테일",
+            "mood": "신뢰감 있고 차분한 금융 서비스 광고 톤",
+            "colors": "딥블루, 화이트, 라이트그레이, 작은 민트 포인트",
+            "composition": "square crop, close-up foreground object, copy-safe empty space on the left",
+        }
+    if keyword in {"자동차", "운전"} or "장기렌트" in related:
+        return {
+            "visual_style": "자연광 실사 자동차 라이프스타일 사진",
+            "objects": "도심 도로의 차량, 운전석 손, 대시보드, 내비게이션 UI",
+            "mood": "현실적이고 바로 행동하게 만드는 모빌리티 광고 톤",
+            "colors": "네이비, 스카이블루, 화이트, 차콜",
+            "composition": "square social ad, vehicle or dashboard on the right, copy block on the left",
+        }
+    if keyword in {"안전", "초보운전"}:
+        return {
+            "visual_style": "친근한 2D 일러스트레이션",
+            "objects": "초보운전 표식, 체크리스트, 안전벨트, 작은 자동차 아이콘",
+            "mood": "부담 없고 안심되는 교육형 서비스 광고 톤",
+            "colors": "소프트블루, 세이지그린, 아이보리, 따뜻한 옐로 포인트",
+            "composition": "square layout, illustration scene in the center, headline at top, CTA at bottom",
+        }
+    if keyword in {"숏폼", "AI", "디지털"} or "숏폼" in title:
+        return {
+            "visual_style": "에너지 있는 3D/디지털 일러스트",
+            "objects": "세로형 숏폼 카드, 스마트폰, 알림 버블, 자동차 아이콘, AI 가이드 UI",
+            "mood": "빠르고 경쾌한 모바일 콘텐츠 광고 톤",
+            "colors": "일렉트릭블루, 코발트, 화이트, 라임 포인트",
+            "composition": "square dynamic composition, floating UI elements, strong headline area at top",
+        }
+    if keyword in {"가성비", "소비트렌드"}:
+        return {
+            "visual_style": "깔끔한 에디토리얼 콜라주 일러스트",
+            "objects": "체크 카드형 UI, 비교 리스트, 자동차 실루엣, 생활 소품",
+            "mood": "똑똑하고 실용적인 소비 정보 광고 톤",
+            "colors": "화이트, 잉크블루, 코랄, 라이트민트",
+            "composition": "square editorial grid, modular blocks, headline in the upper third",
+        }
+
+    style_cycle = [
+        {
+            "visual_style": "모던 실사 광고 사진",
+            "objects": "스마트폰, 자동차 키, 차량 실내",
+            "mood": "정돈되고 신뢰감 있는 서비스 광고 톤",
+            "colors": "블루, 화이트, 그레이",
+            "composition": "square balanced layout with copy-safe negative space",
+        },
+        {
+            "visual_style": "부드러운 2D 일러스트레이션",
+            "objects": "체크리스트, 자동차 아이콘, 운전자 캐릭터",
+            "mood": "친근하고 이해하기 쉬운 안내형 광고 톤",
+            "colors": "소프트블루, 그린, 아이보리",
+            "composition": "square centered illustration with headline area",
+        },
+        {
+            "visual_style": "밝은 카툰형 광고 일러스트",
+            "objects": "웃는 운전자 캐릭터, 작은 자동차, 말풍선 CTA",
+            "mood": "가볍고 클릭을 유도하는 SNS 광고 톤",
+            "colors": "스카이블루, 화이트, 옐로, 코랄",
+            "composition": "square cartoon poster, bold headline, clear CTA button",
+        },
+    ]
+    return style_cycle[(index - 1) % len(style_cycle)]
 
 
 def build_image_prompts(candidates: list[TrendCandidate]) -> list[dict[str, str]]:
     prompts: list[dict[str, str]] = []
     for index, candidate in enumerate(candidates[:5], start=1):
         copy = banner_copy(candidate)
+        style = creative_direction(candidate, index)
         prompts.append(
             {
                 "concept": trend_name(candidate),
                 "filename_slug": f"free-autoins-{index}",
+                "aspect_ratio": "1:1",
+                "visual_style": style["visual_style"],
                 "main_copy": copy["main"][0],
                 "sub_copy": copy["sub"][0],
                 "cta": copy["cta"][0],
                 "prompt": (
-                    "Create a high-resolution vertical 9:16 Korean mobile SNS advertising banner background "
-                    f"for direct auto insurance. Theme keyword: {candidate.keyword}. "
-                    f"Place exact Korean headline text '{copy['main'][0]}' in the upper third, "
-                    f"supporting text '{copy['sub'][0]}' near the middle, and CTA '{copy['cta'][0]}' "
-                    "inside a button area near the bottom. Use a clean trustworthy automotive advertising style, "
-                    "modern car or driver safety checklist objects, blue and white base colors with one accent color, "
-                    "clear negative space for readable Korean text, polished mobile ad composition. "
-                    "Do not include cash, coins, money bundles, gold, cryptocurrency, price tags, or the Korean word 보험료."
+                    "Create a high-resolution square 1:1 Korean SNS advertising banner for direct auto insurance, "
+                    "optimized for a 1080x1080 feed image. "
+                    f"Concept: {trend_name(candidate)}. Theme keyword: {candidate.keyword}. "
+                    f"Visual style: {style['visual_style']}. Key objects: {style['objects']}. "
+                    f"Mood: {style['mood']}. Color palette: {style['colors']}. "
+                    f"Composition: {style['composition']}. "
+                    f"Place exact Korean headline text '{copy['main'][0]}' in a large readable type area, "
+                    f"supporting text '{copy['sub'][0]}' as a smaller secondary line, and CTA '{copy['cta'][0]}' "
+                    "inside a clear button near the lower edge. Ensure the Korean text is crisp, correctly spelled, "
+                    "and does not overlap important objects. Keep the ad polished, brand-safe, and suitable for "
+                    "auto-insurance acquisition. Do not include cash, coins, money bundles, gold, cryptocurrency, "
+                    "price tags, discount labels, or premium-price wording."
                 ),
             }
         )
     while len(prompts) < 5:
         index = len(prompts) + 1
+        style = creative_direction(TrendCandidate(keyword="자동차보험", count=1), index)
         prompts.append(
             {
                 "concept": f"자동차보험 기본 점검 콘셉트 {index}",
                 "filename_slug": f"free-autoins-default-{index}",
+                "aspect_ratio": "1:1",
+                "visual_style": style["visual_style"],
                 "main_copy": "자동차보험 지금 체크",
                 "sub_copy": "운전 전 한 번 더 확인",
                 "cta": "자동차보험 확인",
                 "prompt": (
-                    "Create a high-resolution vertical 9:16 Korean mobile SNS advertising banner background "
-                    "for direct auto insurance. Place exact Korean headline text '자동차보험 지금 체크', "
-                    "supporting text '운전 전 한 번 더 확인', and CTA '자동차보험 확인'. "
-                    "Use a clean trustworthy car insurance advertising style, blue and white colors, "
-                    "driver safety checklist, car dashboard, and mobile UI elements. "
-                    "Do not include cash, coins, money bundles, gold, cryptocurrency, price tags, or the Korean word 보험료."
+                    "Create a high-resolution square 1:1 Korean SNS advertising banner for direct auto insurance, "
+                    "optimized for a 1080x1080 feed image. "
+                    f"Visual style: {style['visual_style']}. Key objects: {style['objects']}. "
+                    f"Mood: {style['mood']}. Color palette: {style['colors']}. "
+                    "Place exact Korean headline text '자동차보험 지금 체크', supporting text '운전 전 한 번 더 확인', "
+                    "and CTA '자동차보험 확인'. Ensure the Korean text is crisp, correctly spelled, and readable. "
+                    "Do not include cash, coins, money bundles, gold, cryptocurrency, price tags, discount labels, "
+                    "or premium-price wording."
                 ),
             }
         )

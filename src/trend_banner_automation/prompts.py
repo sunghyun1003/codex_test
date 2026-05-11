@@ -72,10 +72,16 @@ For each concept, define SNS/mobile-optimized visual direction in one paragraph:
 image style, key objects, color tone and mood, composition, and reference-style advertising feel.
 
 10. Manual image prompt creation:
-Create 5 image generation prompts for 9:16 vertical mobile SNS banner background plates.
+Create 5 image generation prompts for square 1:1 mobile SNS feed banner images.
+The five prompts must not share the same tone and manner. Choose the visual style per concept, for example:
+- realistic lifestyle photo for trust, direct signup, driver, or vehicle-management concepts
+- friendly 2D illustration for safety, beginner-driver, checklist, or educational concepts
+- energetic 3D/digital illustration for short-form, AI, mobile, or creator-driven concepts
+- cartoon-style ad illustration for light, playful, participation-driven concepts
+- editorial collage for practical consumer, comparison, or routine-oriented concepts
 The generated image must look like an auto-insurance advertising background, but it must not contain readable text,
 logos, brand marks, fake UI text, fake Korean letters, blank speech bubbles, empty CTA buttons, or empty text boxes.
-Leave calm visual space in the top third and lower fifth so the automation can add exact editable Korean copy later.
+Leave calm visual space for Korean headline, support copy, and CTA inside a square 1080x1080 composition.
 Image prompts must avoid money bundles, cash piles, coins, gold coins, and cryptocurrency visuals.
 
 Output format:
@@ -106,7 +112,9 @@ At the end, include this exact section:
     "main_copy": "Korean copy containing 자동차보험",
     "sub_copy": "Korean support copy without 보험료",
     "cta": "Korean CTA",
-    "prompt": "Image prompt in English for one text-free vertical 9:16 auto-insurance ad background plate"
+    "aspect_ratio": "1:1",
+    "visual_style": "Concept-specific style such as realistic photo, 2D illustration, 3D digital illustration, cartoon, or editorial collage",
+    "prompt": "Image prompt in English for one square 1:1 auto-insurance SNS banner"
   }
 ]
 ```

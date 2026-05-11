@@ -75,6 +75,10 @@ def validate_ad_rules(prompts: list[ImagePrompt]) -> ValidationResult:
         prompt_text = f"{banner_text} {prompt.prompt}"
         if "자동차보험" not in banner_text:
             issues.append(f"{prompt.concept}: banner-facing copy must include 자동차보험.")
+        if "9:16" in prompt.prompt or "vertical" in prompt.prompt.lower():
+            issues.append(f"{prompt.concept}: image prompt must use square 1:1 format, not 9:16 vertical.")
+        if "1:1" not in prompt.prompt and "square" not in prompt.prompt.lower():
+            issues.append(f"{prompt.concept}: image prompt must explicitly request a square 1:1 banner.")
         for term in forbidden:
             if term.lower() in prompt_text.lower():
                 allowed_instruction = "Do not include" in prompt.prompt or "사용하지" in prompt.prompt
