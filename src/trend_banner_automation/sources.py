@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import html
 import re
 import urllib.parse
 import urllib.request
@@ -24,7 +25,9 @@ class SourceItem:
 
 
 def strip_html(value: str) -> str:
-    text = re.sub(r"<[^>]+>", " ", value or "")
+    text = html.unescape(value or "")
+    text = text.replace("\xa0", " ").replace("&nbsp;", " ")
+    text = re.sub(r"<[^>]+>", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
 

@@ -46,6 +46,10 @@ def validate_report(report_markdown: str, prompts: list[ImagePrompt]) -> Validat
             issues.append(f"Report missing expected section: {section}")
     if "자동차보험" not in report_markdown:
         issues.append("Report must include 자동차보험 ad linkage.")
+    blocked_trend_terms = ["nbsp", ">트렌드 기반", ">네이트 기반", ">com 기반", ">newsis 기반"]
+    for term in blocked_trend_terms:
+        if term in report_markdown:
+            issues.append(f"Report contains low-quality trend candidate: {term}")
     if len(prompts) != 5:
         issues.append(f"Expected exactly 5 image prompts, found {len(prompts)}")
     return ValidationResult(not issues, issues)

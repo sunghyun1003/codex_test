@@ -63,6 +63,59 @@ PRACTICAL_TERMS = {
     "초보운전",
 }
 
+NOISE_TOKENS = {
+    "nbsp",
+    "amp",
+    "quot",
+    "apos",
+    "com",
+    "net",
+    "www",
+    "http",
+    "https",
+    "daum",
+    "naver",
+    "nate",
+    "news",
+    "newsis",
+    "네이트",
+    "다음",
+    "브런치",
+    "한국경제",
+    "뉴시스",
+    "트렌드",
+    "소비",
+    "시장",
+    "시대",
+    "확산",
+    "확대",
+    "전략",
+    "글로벌",
+    "개최",
+    "기념",
+    "하나",
+    "방법",
+    "관련",
+    "최근",
+    "단독",
+    "기자",
+    "영상",
+    "공개",
+    "발표",
+    "오늘",
+    "내일",
+    "이번",
+    "대한",
+    "위한",
+    "통한",
+    "있는",
+    "없는",
+    "한다",
+    "했다",
+    "하는",
+    "ratio",
+}
+
 
 @dataclass
 class TrendCandidate:
@@ -316,18 +369,32 @@ def build_candidates(items: list[SourceItem]) -> list[TrendCandidate]:
 
 
 def extract_keywords(text: str) -> list[str]:
+    text = re.sub(r"&(?:nbsp|amp|quot|apos);", " ", text, flags=re.IGNORECASE)
     tokens = re.findall(r"[가-힣A-Za-z0-9]{2,}", text)
     cleaned: list[str] = []
     for token in tokens:
         value = token.strip()
         if len(value) < 2:
             continue
-        if value in STOPWORDS:
+        if value in STOPWORDS or is_noise_keyword(value):
             continue
         if value.isdigit():
             continue
         cleaned.append(value)
     return cleaned
+
+
+def is_noise_keyword(value: str) -> bool:
+    lowered = value.lower()
+    if lowered in NOISE_TOKENS:
+        return True
+    if lowered.endswith((".com", ".net", ".co")):
+        return True
+    if re.search(r"^(뉴스|신문|일보|방송|경제|미디어)$", value):
+        return True
+    if len(value) <= 2 and value not in {"AI", "숏폼", "릴스", "쇼츠", "운전", "안전"}:
+        return True
+    return False
 
 
 def top_keywords(items: list[SourceItem], *, limit: int) -> list[str]:
